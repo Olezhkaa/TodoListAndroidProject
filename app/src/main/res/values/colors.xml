@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="redBase">#E53935</color>
+    <color name="brownBG">#383131</color>
+    <color name="blackTextButton">#100F0F</color>
+    <color name="grayButtonBG">#C8C6C6</color>
+    <color name="recyclerViewBG">#F4F1F1</color>
+</resources>
