@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,9 +23,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication1.Adapter.CustomAdapterHome;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -38,6 +42,9 @@ public class HomeFragment extends Fragment {
     ArrayList<String> note_id, user_id, note_title, note_date, note_time;
 
     CustomAdapterHome customAdapterHome;
+
+    ImageView emptyImageView;
+    TextView noDataTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +61,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        emptyImageView = view.findViewById(R.id.emptyImageView);
+        noDataTextView = view.findViewById(R.id.noDataTextView);
+
         myDB = new MyDatabaseHelper(getActivity());
         note_id = new ArrayList<>();
         user_id = new ArrayList<>();
@@ -62,14 +72,23 @@ public class HomeFragment extends Fragment {
         note_time = new ArrayList<>();
         storeDataInArrays();
 
-        customAdapterHome = new CustomAdapterHome(getActivity(), note_title, note_time);
+        customAdapterHome = new CustomAdapterHome(getActivity(), getContext(), note_id, note_title, note_date, note_time);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(customAdapterHome);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+            getActivity().recreate();
+        }
     }
 
     void storeDataInArrays() {
@@ -80,6 +99,8 @@ public class HomeFragment extends Fragment {
 
         Cursor cursor = myDB.readDateByColumnData(TABLE_NAME, COLUMN, COLUMN_DATA);
         if(cursor.getCount() == 0) {
+            emptyImageView.setVisibility(View.VISIBLE);
+            noDataTextView.setVisibility(View.VISIBLE);
             makeText(getActivity(), "No data!", LENGTH_SHORT).show();
         }
         else {
@@ -90,6 +111,8 @@ public class HomeFragment extends Fragment {
                 note_date.add(cursor.getString(3));
                 note_time.add(cursor.getString(4));
             }
+            emptyImageView.setVisibility(View.GONE);
+            noDataTextView.setVisibility(View.GONE);
         }
     }
 

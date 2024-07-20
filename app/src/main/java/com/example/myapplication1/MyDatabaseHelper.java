@@ -112,4 +112,43 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    void updateData(String rowId, String title, String date, String time) {
+        SQLiteDatabase db = this.getWritableDatabase() ;
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE, title);
+        cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_TIME, time);
+
+        long result = db.update(TABLE_NAME_NOTES, cv, "_id=?", new String[]{rowId});
+        if(result == -1) {
+            Toast.makeText(context, "Failed to Updated", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(context, "Successful Updated", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    void deleteDataOneRow(String rowId) {
+        SQLiteDatabase db = this.getWritableDatabase() ;
+        long result = db.delete(TABLE_NAME_NOTES, "_id=?", new String[]{rowId});
+        if(result == -1) {
+            Toast.makeText(context, "Failed to Deleted", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(context, "Successful Deleted", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    void deleteAllData(String TABLE_NAME) {
+        SQLiteDatabase db = this.getWritableDatabase() ;
+        db.execSQL("DELETE FROM " + TABLE_NAME);
+    }
+
+    void deleteAllDataWhereData(String TABLE_NAME, String whereColumn, String whereData) {
+        SQLiteDatabase db = this.getWritableDatabase() ;
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + whereColumn + " = " + whereData);
+    }
 }

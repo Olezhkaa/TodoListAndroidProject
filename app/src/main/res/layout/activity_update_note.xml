@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddNoteActivity">
+    tools:context=".UpdateNoteActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
@@ -17,19 +17,37 @@
         app:title="ToolBar!"
         android:background="@color/redBase"
         app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/back_button_hat"/>
+        app:navigationIcon="@drawable/back_button_hat">
+
+        <ImageButton
+            android:id="@+id/deleteAllButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="deleteAll"
+            android:onClick="deleteAllButton"
+            android:src="@drawable/baseline_delete_24"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="366dp"
+            tools:layout_editor_absoluteY="14dp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add a note"
+        android:text="Update a note"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8"
-        android:textColor="@color/redBase"/>
+        android:textColor="@color/redBase"
+        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -75,16 +93,28 @@
             android:layout_marginBottom="10dp"/>
 
         <Button
-            android:id="@+id/ButtonInput"
+            android:id="@+id/UpdateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:backgroundTint="@color/redBase"
             android:paddingHorizontal="100dp"
-            android:text="Add!"
+            android:text="Update!"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:onClick="onClickAddButton"/>
+            android:onClick="onClickUpdateButton"/>
+
+        <Button
+            android:id="@+id/DeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grayButtonBG"
+            android:paddingHorizontal="100dp"
+            android:text="Delete!"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="onClickDeleteButton"/>
 
 
     </LinearLayout>
