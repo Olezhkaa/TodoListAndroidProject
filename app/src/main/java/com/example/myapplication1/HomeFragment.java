@@ -26,12 +26,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.myapplication1.Adapter.CustomAdapterHome;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -41,10 +43,16 @@ public class HomeFragment extends Fragment {
     MyDatabaseHelper myDB;
     ArrayList<String> note_id, user_id, note_title, note_date, note_time;
 
+    String date;
+
     CustomAdapterHome customAdapterHome;
 
     ImageView emptyImageView;
     TextView noDataTextView;
+
+    public HomeFragment(String date) {
+        this.date = date;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +79,26 @@ public class HomeFragment extends Fragment {
         note_date = new ArrayList<>();
         note_time = new ArrayList<>();
         storeDataInArrays();
+
+        for (int i = note_id.size()-1; i >= 0; i--) {
+            if (!note_date.get(i).equals(date)) {
+                note_id.remove(i);
+                user_id.remove(i);
+                note_title.remove(i);
+                note_date.remove(i);
+                note_time.remove(i);
+            }
+        }
+
+        /*for (int i = 0; i < note_id.size(); i++) {
+            if (!note_date.get(i).equals(date)) {
+                note_id.remove(i);
+                user_id.remove(i);
+                note_title.remove(i);
+                note_date.remove(i);
+                note_time.remove(i);
+            }
+        }*/
 
         customAdapterHome = new CustomAdapterHome(getActivity(), getContext(), note_id, note_title, note_date, note_time);
         recyclerView = view.findViewById(R.id.recyclerView);

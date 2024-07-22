@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -21,13 +22,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
+
 import javax.security.auth.Destroyable;
 
 public class MainAndBottomNavigation extends AppCompatActivity {
 
 
-    private Toolbar supportActionBar;
-    Toolbar hatToolBar;
+    public Toolbar hatToolBar;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -49,13 +51,13 @@ public class MainAndBottomNavigation extends AppCompatActivity {
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        replaceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment(todayDate()));
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.home) {
                 hatToolBar.setTitle("Today");
-                replaceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment(todayDate()));
             }
             if(item.getItemId() == R.id.calendar) {
                 hatToolBar.setTitle("Calendar");
@@ -77,7 +79,6 @@ public class MainAndBottomNavigation extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-        //fragmentTransaction.addToBackStack(null); //back
         fragmentTransaction.commit();
     }
 
@@ -105,6 +106,18 @@ public class MainAndBottomNavigation extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public String todayDate() {
+        Calendar calendar = Calendar.getInstance();
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        if(Integer.parseInt(day) < 10) day = "0" + day;
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+        if (Integer.parseInt(month) < 10) month = "0" + month;
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        String date = day + "." + month + "." + year;
+        Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
+        return date;
     }
 
 

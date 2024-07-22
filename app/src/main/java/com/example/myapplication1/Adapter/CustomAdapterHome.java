@@ -22,6 +22,7 @@ public class CustomAdapterHome extends RecyclerView.Adapter<CustomAdapterHome.My
     private Context context;
     Activity activity;
     private ArrayList noteID, note_id, note_title, note_date, note_time;
+    private String date;
 
     public CustomAdapterHome(Activity activity, Context context, ArrayList note_id, ArrayList note_title, ArrayList note_date, ArrayList note_time) {
         this.activity = activity;

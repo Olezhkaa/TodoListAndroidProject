@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -73,4 +76,5 @@ public class AddNoteActivity extends AppCompatActivity {
         }
         else Toast.makeText(this, "Fill in all the fields!", Toast.LENGTH_LONG).show();
     }
+
 }
