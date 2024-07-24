@@ -43,15 +43,23 @@ public class HomeFragment extends Fragment {
     MyDatabaseHelper myDB;
     ArrayList<String> note_id, user_id, note_title, note_date, note_time;
 
-    String date;
+    String date, userId;
 
     CustomAdapterHome customAdapterHome;
 
     ImageView emptyImageView;
     TextView noDataTextView;
 
+    Boolean flagUserId = false;
+
     public HomeFragment(String date) {
         this.date = date;
+    }
+
+    public HomeFragment(Integer user_id, String date) {
+        this.date = date;
+        this.userId = String.valueOf(user_id);
+        flagUserId = true;
     }
 
     @Override
@@ -90,15 +98,7 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        /*for (int i = 0; i < note_id.size(); i++) {
-            if (!note_date.get(i).equals(date)) {
-                note_id.remove(i);
-                user_id.remove(i);
-                note_title.remove(i);
-                note_date.remove(i);
-                note_time.remove(i);
-            }
-        }*/
+
 
         customAdapterHome = new CustomAdapterHome(getActivity(), getContext(), note_id, note_title, note_date, note_time);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -122,9 +122,14 @@ public class HomeFragment extends Fragment {
     void storeDataInArrays() {
         String TABLE_NAME = "Notes";
         String COLUMN = "User_id";
-        SharedPreferences preferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
-        String COLUMN_DATA = preferences.getString("id", "");
-
+        String COLUMN_DATA;
+        if(flagUserId == true) {
+            COLUMN_DATA = userId;
+        }
+        else {
+            SharedPreferences preferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
+            COLUMN_DATA = preferences.getString("id", "");
+        }
         Cursor cursor = myDB.readDateByColumnData(TABLE_NAME, COLUMN, COLUMN_DATA);
         if(cursor.getCount() == 0) {
             emptyImageView.setVisibility(View.VISIBLE);

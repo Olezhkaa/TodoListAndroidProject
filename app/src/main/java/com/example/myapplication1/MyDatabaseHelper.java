@@ -27,6 +27,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DATE = "Date";
     private static final String COLUMN_TIME = "Time";
 
+    private static final String TABLE_NAME_FRIENDS = "Friends";
+    private static final String COLUMN_FRIEND_ID = "Friend_id";
 
 
     public MyDatabaseHelper(@Nullable Context context) {
@@ -47,8 +49,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_DATE + " TEXT, " +
                 COLUMN_TIME + " TEXT);";
 
+        String queryCreateFriends = "CREATE TABLE " + TABLE_NAME_FRIENDS + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_USER_ID + " INTEGER, " +
+                COLUMN_FRIEND_ID + " INTEGER);";
+
         db.execSQL(queryCreateUsers);
         db.execSQL(queryCreateNotes);
+        db.execSQL(queryCreateFriends);
 
     }
 
@@ -56,6 +63,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NOTES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_FRIENDS);
         onCreate(db);
     }
 
@@ -92,6 +100,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    void addFriends(int user_id, int friend_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_USER_ID, user_id);
+        cv.put(COLUMN_FRIEND_ID, friend_id);
+        long result = db.insert(TABLE_NAME_FRIENDS, null, cv);
+        if(result == -1) {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "Added successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     Cursor readAllDate(String TableName) {
         String query = "SELECT * FROM " + TableName;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -102,6 +125,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
 
     Cursor readDateByColumnData(String tableName, String column, String columnData) {
         String query = "SELECT * FROM " + tableName + " WHERE " + column + " = " + columnData;
