@@ -88,18 +88,6 @@ public class HomeFragment extends Fragment {
         note_time = new ArrayList<>();
         storeDataInArrays();
 
-        for (int i = note_id.size()-1; i >= 0; i--) {
-            if (!note_date.get(i).equals(date)) {
-                note_id.remove(i);
-                user_id.remove(i);
-                note_title.remove(i);
-                note_date.remove(i);
-                note_time.remove(i);
-            }
-        }
-
-
-
         customAdapterHome = new CustomAdapterHome(getActivity(), getContext(), note_id, note_title, note_date, note_time);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(customAdapterHome);
@@ -122,6 +110,7 @@ public class HomeFragment extends Fragment {
     void storeDataInArrays() {
         String TABLE_NAME = "Notes";
         String COLUMN = "User_id";
+        String COLUMN_DATE = "Date";
         String COLUMN_DATA;
         if(flagUserId == true) {
             COLUMN_DATA = userId;
@@ -130,7 +119,7 @@ public class HomeFragment extends Fragment {
             SharedPreferences preferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
             COLUMN_DATA = preferences.getString("id", "");
         }
-        Cursor cursor = myDB.readDateByColumnData(TABLE_NAME, COLUMN, COLUMN_DATA);
+        Cursor cursor = myDB.readDateByColumnData(TABLE_NAME, COLUMN, COLUMN_DATA, COLUMN_DATE, date);
         if(cursor.getCount() == 0) {
             emptyImageView.setVisibility(View.VISIBLE);
             noDataTextView.setVisibility(View.VISIBLE);

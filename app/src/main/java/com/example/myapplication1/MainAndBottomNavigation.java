@@ -1,5 +1,7 @@
 package com.example.myapplication1;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +21,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+import androidx.fragment.app.FragmentContainerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -44,7 +51,7 @@ public class MainAndBottomNavigation extends AppCompatActivity {
         });
 
         hatToolBar = findViewById(R.id.hatToolBar);
-        hatToolBar.setTitle("Today");
+        hatToolBar.setTitle("Toolbar");
         setSupportActionBar(hatToolBar);
 
         //Show back button toolBar

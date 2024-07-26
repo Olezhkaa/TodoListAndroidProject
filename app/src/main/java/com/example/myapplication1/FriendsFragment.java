@@ -54,6 +54,8 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+
+
         SharedPreferences preferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
         user_id_active = preferences.getString("id", "");
 
@@ -81,7 +83,7 @@ public class FriendsFragment extends Fragment {
             }
         }
 
-        customAdapterFriends = new CustomAdapterFriends(getContext(), user_id_in_adapter, user_username_in_adapter, user_email_in_adapter);
+        customAdapterFriends = new CustomAdapterFriends(getActivity(), getContext(), user_id_in_adapter, user_username_in_adapter, user_email_in_adapter);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(customAdapterFriends);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

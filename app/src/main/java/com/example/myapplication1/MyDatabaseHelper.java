@@ -137,6 +137,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    Cursor readDateByColumnData(String tableName, String column, String columnData, String column2, String columnData2) {
+        String query = "SELECT * FROM " + tableName + " WHERE " + column + " = " + columnData + " AND " + column2 + " = \"" + columnData2 + '"';
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
     void updateData(String rowId, String title, String date, String time) {
         SQLiteDatabase db = this.getWritableDatabase() ;
         ContentValues cv = new ContentValues();

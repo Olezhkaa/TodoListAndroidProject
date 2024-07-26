@@ -2,9 +2,12 @@ package com.example.myapplication1.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication1.CalendarFragment;
+import com.example.myapplication1.ChatActivity;
 import com.example.myapplication1.HomeFragment;
 import com.example.myapplication1.MainAndBottomNavigation;
 import com.example.myapplication1.R;
@@ -29,7 +33,10 @@ public class CustomAdapterFriends extends RecyclerView.Adapter<CustomAdapterFrie
     private Activity activity;
     private ArrayList user_id, user_username, user_email;
 
-    public CustomAdapterFriends(Context context, ArrayList user_id, ArrayList user_username, ArrayList user_email) {
+
+
+    public CustomAdapterFriends(Activity activity, Context context, ArrayList user_id, ArrayList user_username, ArrayList user_email) {
+        this.activity = activity;
         this.context = context;
         this.user_id = user_id;
         this.user_username = user_username;
@@ -40,12 +47,14 @@ public class CustomAdapterFriends extends RecyclerView.Adapter<CustomAdapterFrie
 
         TextView usernameTextView, emailTextView;
         ConstraintLayout rowFriendsConstraintLayout;
+        ImageButton messageButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameTextView = itemView.findViewById(R.id.usernameTextView);
             emailTextView = itemView.findViewById(R.id.emailTextView);
             rowFriendsConstraintLayout = itemView.findViewById(R.id.rowFriendsConstraintLayout);
+            messageButton = itemView.findViewById(R.id.messageButton);
         }
     }
 
@@ -82,6 +91,14 @@ public class CustomAdapterFriends extends RecyclerView.Adapter<CustomAdapterFrie
 
             }
         });
+        holder.messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("messageUsername", String.valueOf(user_username.get(holder.getPosition())));
+                activity.startActivity(intent);
+            }
+        });
 
     }
 
@@ -89,6 +106,7 @@ public class CustomAdapterFriends extends RecyclerView.Adapter<CustomAdapterFrie
     public int getItemCount() {
         return user_username.size();
     }
+
 
 
 }
