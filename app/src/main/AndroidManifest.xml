@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,29 +16,16 @@
         android:theme="@style/Theme.MyApplication1"
         tools:targetApi="31">
         <activity
-            android:name=".ChatActivity"
-            android:exported="false"
-            android:parentActivityName=".MainAndBottomNavigation"/>
-        <activity
-            android:name=".AddFriendsActivity"
-            android:exported="false"
-            android:parentActivityName=".MainAndBottomNavigation" />
-        <activity
-            android:name=".UpdateNoteActivity"
-            android:exported="false"
-            android:parentActivityName=".MainAndBottomNavigation" />
-        <activity
-            android:name=".AddNoteActivity"
-            android:exported="false"
-            android:parentActivityName=".MainAndBottomNavigation" />
-        <activity
-            android:name=".MainAndBottomNavigation"
+            android:name=".AppFirebase.AddFriendFirebase"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".AppFirebase.UpdateNoteFirebase"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".AppFirebase.AddNoteFirebase"
+            android:exported="false" />
+        <activity
+            android:name=".AppFirebase.MainMenuNavigation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,11 +34,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity2"
+            android:name=".AppFirebase.SignupFirebase"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AppFirebase.LoginFirebase"
             android:exported="false" />
+        <activity
+            android:name=".AppFirebase.ChatActivityFirebase"
+            android:exported="false"
+            android:parentActivityName=".AppFirebase.MainMenuNavigation" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_navigation_firebase"
+    app:startDestination="@id/homeFragmentFirebase">
+
+    <fragment
+        android:id="@+id/homeFragmentFirebase"
+        android:name="com.example.myapplication1.AppFirebase.ui.HomeFragmentFirebase"
+        android:label="Today"
+        tools:layout="@layout/fragment_home_firebase" />
+    <fragment
+        android:id="@+id/calendarFragmentFirebase"
+        android:name="com.example.myapplication1.AppFirebase.ui.CalendarFragmentFirebase"
+        android:label="Calendar"
+        tools:layout="@layout/fragment_calendar_firebase" />
+    <fragment
+        android:id="@+id/friendsFragmentFirebase"
+        android:name="com.example.myapplication1.AppFirebase.ui.FriendsFragmentFirebase"
+        android:label="Friends"
+        tools:layout="@layout/fragment_friends_firebase" />
+    <fragment
+        android:id="@+id/profileFragmentFirebase"
+        android:name="com.example.myapplication1.AppFirebase.ui.ProfileFragmentFirebase"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile_firebase" />
+</navigation>
