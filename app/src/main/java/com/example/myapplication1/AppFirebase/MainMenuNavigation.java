@@ -38,7 +38,8 @@ public class MainMenuNavigation extends AppCompatActivity {
         binding = ActivityMainMenuNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) { startActivity(new Intent(this, LoginFirebase.class)); }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser() == null) { startActivityForResult(new Intent(this, LoginFirebase.class), 1); }
 
         toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);

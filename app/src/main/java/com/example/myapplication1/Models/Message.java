@@ -1,17 +1,21 @@
 package com.example.myapplication1.Models;
 
-import java.util.Date;
+
+import android.text.format.DateFormat;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class Message {
     public String userName;
     public String textMessage;
-    private long timeMessage;
+    private String timeMessage;
 
     public Message() {}
     public Message(String userName, String textMessage) {
         this.userName = userName;
         this.textMessage = textMessage;
-        this.timeMessage = new Date().getTime();
+        this.timeMessage = nowTime();
     }
 
     public String getUserName() {
@@ -30,11 +34,19 @@ public class Message {
         this.textMessage = textMessage;
     }
 
-    public long getTimeMessage() {
+    public String getTimeMessage() {
         return timeMessage;
     }
 
-    public void setTimeMessage(long timeMessage) {
+    public void setTimeMessage(String timeMessage) {
         this.timeMessage = timeMessage;
+    }
+
+    public String nowTime()
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+        String date = (String) DateFormat.format("dd.MM.yyyy HH:mm", calendar);
+        return date;
     }
 }

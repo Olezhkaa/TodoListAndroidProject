@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.myapplication1.Adapter.CustomAdapterNoteFirebase;
 import com.example.myapplication1.AppFirebase.AddNoteFirebase;
+import com.example.myapplication1.AppFirebase.LoginFirebase;
 import com.example.myapplication1.Models.Note;
 import com.example.myapplication1.R;
 import com.example.myapplication1.databinding.FragmentHomeFirebaseBinding;
@@ -57,11 +58,11 @@ public class HomeFragmentFirebase extends Fragment {
 
 
     public HomeFragmentFirebase() {
-        userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userUID = getUserUID();
         date = todayDate();
     }
     public HomeFragmentFirebase(String date) {
-        userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userUID = getUserUID();
         this.date = date;
     }
     public HomeFragmentFirebase(String userUID, boolean friend) {
@@ -74,6 +75,8 @@ public class HomeFragmentFirebase extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeFirebaseBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) { startActivity(new Intent(getActivity(), LoginFirebase.class)); }
 
         frameLayout = root.findViewById(R.id.frameLayout);
 
@@ -149,5 +152,13 @@ public class HomeFragmentFirebase extends Fragment {
         String year = String.valueOf(calendar.get(Calendar.YEAR));
         String date = day + "." + month + "." + year;
         return date;
+    }
+
+    public String getUserUID() {
+        String userUid = null;
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        return userUid;
     }
 }
