@@ -110,30 +110,6 @@ public class UpdateNoteFirebase extends AppCompatActivity {
         catch (Exception e) { Toast.makeText(UpdateNoteFirebase.this, "Error: " + e, Toast.LENGTH_LONG).show(); }
     }
 
-    public void deleteAllButton(View view) {
-        notes.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                {
-                    Note note = dataSnapshot.getValue(Note.class);
-                    if(note.getId().equals(auth.getCurrentUser().getUid())) {
-                        keyData = dataSnapshot.getKey();
-                        notes.child(keyData).removeValue();
-                    }
-                }
-                Toast.makeText(UpdateNoteFirebase.this, "All notes deleted", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(UpdateNoteFirebase.this, MainMenuNavigation.class));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
     void getKeyNoteData()
     {
         notes.addValueEventListener(new ValueEventListener() {

@@ -68,8 +68,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:contentDescription="addButton"
-                android:src="@drawable/add_button"
-                android:visibility="gone"/>
+                android:src="@drawable/add_button" />
 
         </LinearLayout>
 

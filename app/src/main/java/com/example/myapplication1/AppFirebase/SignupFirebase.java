@@ -18,6 +18,7 @@ import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
 import com.example.myapplication1.databinding.ActivitySignupFirebaseBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Objects;
@@ -76,7 +78,7 @@ public class SignupFirebase extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
                                             public void onSuccess(AuthResult authResult) {
-                                                User user = new User(usernameEditText.getText().toString().trim(), emailEditText.getText().toString().trim());
+                                                User user = new User(usernameEditText.getText().toString().trim(), emailEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
 
                                                 users.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).setValue(user)
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -84,6 +86,11 @@ public class SignupFirebase extends AppCompatActivity {
                                                             public void onSuccess(Void unused) {
                                                                 Toast.makeText(SignupFirebase.this, MessageFormat.format("Welcome, {0}!", usernameEditText.getText()), Toast.LENGTH_LONG).show();
                                                                 startActivity(new Intent(SignupFirebase.this, MainMenuNavigation.class));
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(SignupFirebase.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                                             }
                                                         });
                                             }
