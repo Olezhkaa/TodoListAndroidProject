@@ -28,15 +28,6 @@
         android:background="@color/redBase"
         app:titleTextColor="@color/white">
 
-        <Button
-            android:id="@+id/logOutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:text="Log out!"
-            android:backgroundTint="@color/redBase"
-            android:onClick="onClickLogOutButton"/>
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout

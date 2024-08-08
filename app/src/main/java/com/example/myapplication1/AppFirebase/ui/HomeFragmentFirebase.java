@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +21,7 @@ import com.example.myapplication1.Adapter.CustomAdapterNoteFirebase;
 import com.example.myapplication1.AppFirebase.AddNoteFirebase;
 import com.example.myapplication1.AppFirebase.LoginFirebase;
 import com.example.myapplication1.Models.Note;
+import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
 import com.example.myapplication1.databinding.FragmentHomeFirebaseBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -56,6 +54,8 @@ public class HomeFragmentFirebase extends Fragment {
 
     String userUID, date;
 
+    String accessRights= "";
+
 
     public HomeFragmentFirebase() {
         userUID = getUserUID();
@@ -85,7 +85,7 @@ public class HomeFragmentFirebase extends Fragment {
 
         recyclerView = root.findViewById(R.id.recyclerView);
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
-        notes = db.getReference("Notes");
+        notes = db.getReference("Notes").child(userUID);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -98,10 +98,11 @@ public class HomeFragmentFirebase extends Fragment {
         notes.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                noteArrayList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Note note = dataSnapshot.getValue(Note.class);
-                    if(Objects.requireNonNull(note).getDate().equals(date) && Objects.requireNonNull(note).getId().equals(userUID)) noteArrayList.add(note);
+                    if(Objects.requireNonNull(note).getDate().equals(date) && Objects.requireNonNull(note).getIdUser().equals(userUID)) noteArrayList.add(note);
                 }
                 customAdapterNoteFirebase.notifyDataSetChanged();
                 emptyRecyclerView();
@@ -115,10 +116,13 @@ public class HomeFragmentFirebase extends Fragment {
         });
 
         addButton = root.findViewById(R.id.addButton);
+        visibleAddNoteButton();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), AddNoteFirebase.class));
+                Intent intent = new Intent(getContext(), AddNoteFirebase.class);
+                intent.putExtra("userIdAddNote", userUID);
+                startActivity(intent);
             }
         });
 
@@ -161,4 +165,30 @@ public class HomeFragmentFirebase extends Fragment {
         }
         return userUid;
     }
+
+    public void visibleAddNoteButton() {
+        DatabaseReference users = db.getReference("Users");
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+                            accessRights = user.getAccessRights();
+                            if(!accessRights.equals("Admin") && !userUID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                addButton.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

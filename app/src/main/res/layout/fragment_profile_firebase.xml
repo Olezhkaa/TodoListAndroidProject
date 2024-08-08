@@ -62,7 +62,8 @@
                     android:layout_marginTop="5dp"
                     android:text="online"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/aboutMeTextView"
@@ -130,6 +131,20 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     tools:ignore="TouchTargetSizeCheck" />
+
+                <Button
+                    android:id="@+id/logOutButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/transparent"
+                    android:gravity="start"
+                    android:minHeight="48dp"
+                    android:text="Log out"
+                    android:textColor="@color/redBase"
+                    android:textSize="20sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
             </LinearLayout>
 
 

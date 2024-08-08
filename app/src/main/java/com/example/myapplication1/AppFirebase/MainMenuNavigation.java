@@ -1,6 +1,7 @@
 package com.example.myapplication1.AppFirebase;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.example.myapplication1.AppFirebase.ui.CalendarFragmentFirebase;
 import com.example.myapplication1.AppFirebase.ui.FriendsFragmentFirebase;
 import com.example.myapplication1.AppFirebase.ui.HomeFragmentFirebase;
 import com.example.myapplication1.AppFirebase.ui.ProfileFragmentFirebase;
+import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,8 +30,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication1.databinding.ActivityMainMenuNavigationBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
 
@@ -39,7 +44,6 @@ public class MainMenuNavigation extends AppCompatActivity {
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
 
-    FirebaseAuth auth;
     FirebaseDatabase db;
     DatabaseReference usersOnline;
 
@@ -54,21 +58,40 @@ public class MainMenuNavigation extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
         usersOnline = db.getReference("UsersOnline");
+
         if(auth.getCurrentUser() != null) {
             usersOnline.child(auth.getCurrentUser().getUid()).setValue(auth.getCurrentUser().getEmail());
         }
 
-
         toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.homeFragmentFirebase, R.id.calendarFragmentFirebase, R.id.friendsFragmentFirebase, R.id.profileFragmentFirebase).build();
-        NavController navController = Navigation.findNavController(this, R.id.fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);*/
+
+
+
+    }
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        //fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 71 && data != null && data.getData() != null && resultCode == RESULT_OK) {
+            Log.d("MyLog", "Image URI: " + data.getData());
+            Uri filePath = data.getData();
+            replaceFragment(new ProfileFragmentFirebase(this, this, filePath));
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         replaceFragment(new HomeFragmentFirebase());
         toolbar.setTitle("Today");
@@ -95,34 +118,10 @@ public class MainMenuNavigation extends AppCompatActivity {
         });
 
     }
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        //fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    public void onClickLogOutButton(View view) {
-        AuthUI.getInstance()
-                .signOut(MainMenuNavigation.this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MainMenuNavigation.this, "User Signed Out", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainMenuNavigation.this, LoginFirebase.class));
-                    }
-                });
-    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 71 && data != null && data.getData() != null && resultCode == RESULT_OK) {
-            Log.d("MyLog", "Image URI: " + data.getData());
-            Uri filePath = data.getData();
-            replaceFragment(new ProfileFragmentFirebase(this, this, filePath));
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
-
-
 }

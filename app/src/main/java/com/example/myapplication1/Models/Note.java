@@ -6,28 +6,28 @@ import java.util.Objects;
 
 public class Note {
 
-    private String id, title, date, time;
+    private String idUser, title, date, time;
 
     public Note(String title, String date, String time) {
-        id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        idUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         this.title = title;
         this.date = date;
         this.time = time;
     }
 
-    public Note(String id, String title, String date, String time) {
-        this.id = id;
+    public Note(String idUser, String title, String date, String time) {
+        this.idUser = idUser;
         this.title = title;
         this.date = date;
         this.time = time;
     }
 
-    public String getId() {
-        return id;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public Note() {}

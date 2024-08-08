@@ -33,6 +33,7 @@ public class UpdateNoteFirebase extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference notes;
 
+    String userUID;
     String keyData;
 
     @Override
@@ -51,9 +52,11 @@ public class UpdateNoteFirebase extends AppCompatActivity {
         dateEditText = findViewById(R.id.dateEditText);
         timeEditText = findViewById(R.id.timeEditText);
 
+        userUID = getIntent().getStringExtra("userUidUpdateNote");
+
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
-        notes = db.getReference("Notes");
+        notes = db.getReference("Notes").child(userUID);
 
         getAndSetIntentDate();
         getKeyNoteData();

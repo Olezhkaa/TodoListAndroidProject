@@ -13,8 +13,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication1.Models.Note;
+import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
 import com.example.myapplication1.AppFirebase.UpdateNoteFirebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -49,11 +56,36 @@ public class CustomAdapterNoteFirebase extends RecyclerView.Adapter<CustomAdapte
         holder.rowHomeConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, UpdateNoteFirebase.class);
-                intent.putExtra("title", String.valueOf(note.getTitle()));
-                intent.putExtra("date", String.valueOf(note.getDate()));
-                intent.putExtra("time", String.valueOf(note.getTime()));
-                activity.startActivityForResult(intent, 1);
+                FirebaseDatabase db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
+                DatabaseReference users = db.getReference("Users");
+                users.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                User user = dataSnapshot.getValue(User.class);
+                                String accessRights = user.getAccessRights();
+                                if(accessRights.equals("User") && !FirebaseAuth.getInstance().getCurrentUser().getUid().equals(note.getIdUser())) { }
+                                else {
+                                    Intent intent = new Intent(context, UpdateNoteFirebase.class);
+                                    intent.putExtra("userUidUpdateNote", String.valueOf(note.getIdUser()));
+                                    intent.putExtra("title", String.valueOf(note.getTitle()));
+                                    intent.putExtra("date", String.valueOf(note.getDate()));
+                                    intent.putExtra("time", String.valueOf(note.getTime()));
+                                    activity.startActivityForResult(intent, 1);
+                                }
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
             }
         });
 

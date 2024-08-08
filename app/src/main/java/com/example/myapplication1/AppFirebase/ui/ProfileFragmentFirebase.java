@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication1.AppFirebase.LoginFirebase;
 import com.example.myapplication1.AppFirebase.MainMenuNavigation;
-import com.example.myapplication1.AppFirebase.SignupFirebase;
-import com.example.myapplication1.AppFirebase.UpdateNoteFirebase;
 import com.example.myapplication1.Models.Note;
 import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
 import com.example.myapplication1.databinding.FragmentProfileFirebaseBinding;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +49,7 @@ public class ProfileFragmentFirebase extends Fragment {
     private FragmentProfileFirebaseBinding binding;
 
     TextView usernameTextView, onlineTextView, aboutMeTextView;
-    Button changeImageButton, changeUsernameButton, changePasswordButton, deleteAllNoteButton;
+    Button changeImageButton, changeUsernameButton, changePasswordButton, deleteAllNoteButton, logOutButton;
     ImageView imageView;
 
     FirebaseAuth auth;
@@ -157,6 +158,21 @@ public class ProfileFragmentFirebase extends Fragment {
             @Override
             public void onClick(View view) {
                 deleteAll();
+            }
+        });
+
+        logOutButton = binding.deleteAllNoteButton;
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AuthUI.getInstance()
+                        .signOut(context)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(context, "User Signed Out", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(context, LoginFirebase.class));
+                            }
+                        });
             }
         });
 
@@ -397,7 +413,7 @@ public class ProfileFragmentFirebase extends Fragment {
                         for(DataSnapshot dataSnapshot : snapshot.getChildren())
                         {
                             Note note = dataSnapshot.getValue(Note.class);
-                            if(note.getId().equals(auth.getCurrentUser().getUid())) {
+                            if(note.getIdUser().equals(auth.getCurrentUser().getUid())) {
                                 String keyData = dataSnapshot.getKey();
                                 notes.child(keyData).removeValue();
                             }
