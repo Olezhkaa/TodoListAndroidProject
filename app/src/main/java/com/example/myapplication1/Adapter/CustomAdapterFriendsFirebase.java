@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.provider.ContactsContract;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +66,9 @@ public class CustomAdapterFriendsFirebase extends RecyclerView.Adapter<CustomAda
         User user = userList.get(position);
         holder.usernameTextView.setText(user.getUsername());
         holder.emailTextView.setText(user.getEmail());
+
+        styleColorText(holder.usernameTextView);
+        styleColorText(holder.emailTextView);
 
         holder.rowFriendsConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,5 +148,17 @@ public class CustomAdapterFriendsFirebase extends RecyclerView.Adapter<CustomAda
             rowFriendsConstraintLayout = itemView.findViewById(R.id.rowFriendsConstraintLayout);
             messageButton = itemView.findViewById(R.id.messageButton);
         }
+    }
+
+    public void styleColorText(TextView textView) {
+        TextPaint paint = textView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+
+        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(textShader);
     }
 }

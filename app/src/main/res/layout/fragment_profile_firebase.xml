@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppFirebase.ui.ProfileFragmentFirebase">
+    tools:context=".AppFirebase.ui.ProfileFragmentFirebase"
+    android:layout_marginBottom="5dp">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -15,135 +16,99 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="25sp">
+            android:paddingTop="20sp">
 
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/usernameTextView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/image_profile" />
 
             <TextView
                 android:id="@+id/usernameTextView"
+                style="@style/textViewTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="Username"
-                android:textColor="@color/black"
-                android:textSize="36sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Имя Фамилия"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/linearLayout2"
+                style="@style/linearLayoutStyle"
+                android:layout_margin="5dp"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/usernameTextView">
 
                 <TextView
-                    android:id="@+id/onlineTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
-                    android:text="online"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:visibility="gone"/>
-
-                <TextView
                     android:id="@+id/aboutMeTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="5dp"
-                    android:text="About me"
-                    android:textColor="@color/black"
+                    android:fontFamily="@font/inter"
+                    android:text="О себе:"
+                    android:textColor="@color/grayDark"
                     android:textSize="20sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                style="@style/linearLayoutStyle"
+                android:layout_margin="5dp"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Settings"
-                    android:textColor="@color/black"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Настройки"
+                    android:textColor="@color/grayDark"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/changeButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="start"
-                    android:text="Сhoose image"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    style="@style/buttonProfileSettings"
+                    android:text="Изменить изображение" />
 
 
                 <Button
                     android:id="@+id/changeUsernameButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="start"
-                    android:text="Сhange username"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    style="@style/buttonProfileSettings"
+                    android:text="Изменить имя" />
 
                 <Button
                     android:id="@+id/changePasswordButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="start"
-                    android:text="Сhange password"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    style="@style/buttonProfileSettings"
+                    android:text="Изменить пароль" />
 
                 <Button
                     android:id="@+id/deleteAllNoteButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="start"
-                    android:minHeight="48dp"
-                    android:text="Delete all note"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    style="@style/buttonProfileSettings"
+                    android:text="Удалить все записи" />
+
+                <Button
+                    android:id="@+id/changeThemeButton"
+                    style="@style/buttonProfileSettings"
+                    android:text="Изменить тему" />
 
                 <Button
                     android:id="@+id/logOutButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/transparent"
-                    android:gravity="start"
-                    android:minHeight="48dp"
-                    android:text="Log out"
-                    android:textColor="@color/redBase"
-                    android:textSize="20sp"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    style="@style/buttonProfileSettings"
+                    android:text="Выйти"
+                    android:textColor="@color/redBase" />
 
             </LinearLayout>
 

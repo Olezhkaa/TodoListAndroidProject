@@ -3,10 +3,11 @@
 
     <item android:title="Home"
         android:id="@+id/homeFragmentFirebase"
-        android:icon="@drawable/home_bottom_menu"/>
+        android:icon="@drawable/home_bottom_menu" />
     <item android:title="Calendar"
         android:id="@+id/calendarFragmentFirebase"
-        android:icon="@drawable/calendar_bottom_menu"/>
+        android:icon="@drawable/calendar_bottom_menu"
+        />
     <item android:title="Friends"
         android:id="@+id/friendsFragmentFirebase"
         android:icon="@drawable/friends_bottom_menu"/>

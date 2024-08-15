@@ -1,9 +1,11 @@
 package com.example.myapplication1.AppFirebase.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.example.myapplication1.Adapter.CustomAdapterNoteFirebase;
 import com.example.myapplication1.AppFirebase.AddNoteFirebase;
 import com.example.myapplication1.AppFirebase.LoginFirebase;
+import com.example.myapplication1.AppFirebase.MainMenuNavigation;
 import com.example.myapplication1.Models.Note;
 import com.example.myapplication1.Models.User;
 import com.example.myapplication1.R;
@@ -40,7 +45,7 @@ public class HomeFragmentFirebase extends Fragment {
 
     private FragmentHomeFirebaseBinding binding;
 
-    private FloatingActionButton addButton;
+    private ImageButton addButton;
     FrameLayout frameLayout;
 
     RecyclerView recyclerView;
@@ -76,7 +81,17 @@ public class HomeFragmentFirebase extends Fragment {
         binding = FragmentHomeFirebaseBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        if(getActivity().getSharedPreferences("themeApp", Context.MODE_PRIVATE).getString("themeApp", "").equals("dark") && AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            startActivity(new Intent(getActivity(), MainMenuNavigation.class));
+        }
+
         if(FirebaseAuth.getInstance().getCurrentUser() == null) { startActivity(new Intent(getActivity(), LoginFirebase.class)); }
+
+        if(getActivity().getSharedPreferences("themeApp", Context.MODE_PRIVATE).getString("themeApp", "").equals("dark") && AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            startActivity(new Intent(getActivity(), MainMenuNavigation.class));
+        }
 
         frameLayout = root.findViewById(R.id.frameLayout);
 
@@ -92,8 +107,6 @@ public class HomeFragmentFirebase extends Fragment {
         noteArrayList = new ArrayList<>();
         customAdapterNoteFirebase = new CustomAdapterNoteFirebase(getActivity(), getContext(), noteArrayList);
         recyclerView.setAdapter(customAdapterNoteFirebase);
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         notes.addValueEventListener(new ValueEventListener() {
             @Override

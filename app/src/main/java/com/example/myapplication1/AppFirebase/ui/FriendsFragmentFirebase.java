@@ -50,8 +50,6 @@ public class FriendsFragmentFirebase extends Fragment {
     ArrayList<Friend> friendArrayList;
     DatabaseReference friends;
 
-    FloatingActionButton addButton;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -68,8 +66,6 @@ public class FriendsFragmentFirebase extends Fragment {
         userArrayList = new ArrayList<>();
         customAdapterFriendsFirebase = new CustomAdapterFriendsFirebase(getActivity(), getContext(), userArrayList);
         recyclerView.setAdapter(customAdapterFriendsFirebase);
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         friends.addValueEventListener(new ValueEventListener() {
             @Override
@@ -106,14 +102,6 @@ public class FriendsFragmentFirebase extends Fragment {
             }
         });
 
-
-        addButton = root.findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), AddFriendFirebase.class));
-            }
-        });
 
         return root;
     }

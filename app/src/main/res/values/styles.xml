@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="buttonStyleBlue" >
+        <item name="android:backgroundTint">@color/blueDark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:paddingRight">25dp</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="dividing_line_blue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@drawable/gradient_blue_light</item>
+        <item name="android:layout_marginBottom">45dp</item>
+    </style>
+
+    <style name="textViewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textColor">#2D538C</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="buttonStyleTransparent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+    <style name="textViewStyleLogSign">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">35dp</item>
+        <item name="android:layout_marginRight">35dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+
+    <style name="toolbarStyle">
+        <item name="android:paddingTop">25dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="adapterTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/blueDark</item>
+    </style>
+
+    <style name="messageDateTime">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+
+    <style name="buttonProfileSettings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+
+
+
+
+</resources>

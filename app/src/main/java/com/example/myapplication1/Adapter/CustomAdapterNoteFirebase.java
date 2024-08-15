@@ -3,6 +3,10 @@ package com.example.myapplication1.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +56,10 @@ public class CustomAdapterNoteFirebase extends RecyclerView.Adapter<CustomAdapte
         holder.titleTextView.setText(note.getTitle());
         holder.dateTextView.setText(note.getDate());
         holder.timeTextView.setText(note.getTime());
+
+        styleColorText(holder.titleTextView);
+        styleColorText(holder.dateTextView);
+        styleColorText(holder.timeTextView);
 
         holder.rowHomeConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,5 +120,17 @@ public class CustomAdapterNoteFirebase extends RecyclerView.Adapter<CustomAdapte
             rowHomeConstraintLayout = itemView.findViewById(R.id.rowHomeConstraintLayout);
 
         }
+    }
+
+    public void styleColorText(TextView textView) {
+        TextPaint paint = textView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+
+        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(textShader);
     }
 }

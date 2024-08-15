@@ -1,6 +1,11 @@
 package com.example.myapplication1.AppFirebase;
 
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
+import android.text.TextPaint;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -57,16 +62,39 @@ public class ChatActivityFirebase extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolBar);
         String username = getIntent().getStringExtra("messageUsername");
+        String[] usernameArr = username.split(" ");
+        if(usernameArr.length != 1) {
+            username = usernameArr[0] + "\n" +  usernameArr[1];
+        }
+        else {
+            binding.linearLayout.setGravity(Gravity.CENTER);
+            binding.profileImageView.setPadding(0, 0, 0, 20);
+        }
         setSupportActionBar(toolbar);
-        toolbar.setTitle(username);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextPaint paint = binding.titleTextView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+        Shader textShader = new LinearGradient(0, 0, width, binding.titleTextView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        binding.titleTextView.getPaint().setShader(textShader);
+
+        binding.titleTextView.setText(username);
 
         recyclerView = binding.recyclerView;
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
         chat = db.getReference("Chat");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         displayAllMessages();
 
@@ -75,8 +103,39 @@ public class ChatActivityFirebase extends AppCompatActivity {
         recyclerView.setAdapter(customAdapterMessageFirebase);
 
         messageEditText = binding.messageEditText;
-        sendButton = binding.sendButton;
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        binding.textInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                messageArrayList.clear();
+                if(!messageEditText.getText().toString().trim().isEmpty()) {
+                    String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String friendUid = getIntent().getStringExtra("messageFriendUid");
+                    DatabaseReference users = db.getReference("Users");
+                    users.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                User user = dataSnapshot.getValue(User.class);
+                                assert user != null;
+                                if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    String username = user.getUsername();
+                                    Message message = new Message(username, messageEditText.getText().toString().trim());
+                                    chat.child(userUid).child(friendUid).push().setValue(message);
+                                    chat.child(friendUid).child(userUid).push().setValue(message);
+                                    messageEditText.setText("");
+                                    break;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+        });
+        /*sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messageArrayList.clear();
@@ -108,7 +167,7 @@ public class ChatActivityFirebase extends AppCompatActivity {
                     });
                 }
             }
-        });
+        });*/
     }
 
     private void displayAllMessages() {

@@ -7,73 +7,56 @@
     android:layout_height="match_parent"
     tools:context=".AppFirebase.LoginFirebase">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login Page"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
-        android:textColor="@color/redBase"/>
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        style="@style/linearLayoutStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/titleTextView"
+            android:text="Авторизация"
+            style="@style/textViewTitle" />
+
+        <View style="@style/dividing_line_blue" />
+
+        <TextView
+            android:text="Почта"
+            style="@style/textViewStyleLogSign" />
+
         <EditText
             android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"/>
+            style="@style/editTextStyle"
+            android:minHeight="48dp"
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            style="@style/textViewStyleLogSign"
+            android:text="Пароль"
+            />
 
         <EditText
             android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginBottom="5dp"/>
+            style="@style/editTextStyle"
+            android:minHeight="48dp"
+            android:inputType="textPassword" />
 
 
         <Button
             android:id="@+id/signInButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="100dp"
-            android:text="Login!"
-            android:backgroundTint="@color/redBase"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:onClick="onClickSignIn"/>
+            style="@style/buttonStyleBlue"
+            android:onClick="onClickSignIn"
+            android:text="Вход" />
+
+
 
         <Button
             android:id="@+id/signUpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:text="Don't have an account? Let's signup!"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:onClick="onClickGoSingUp"/>
+            android:text="Регистрация"
+            android:onClick="onClickGoSingUp"
+            style="@style/buttonStyleTransparent" />
 
     </LinearLayout>
 

@@ -8,4 +8,11 @@
     <color name="blackTextButton">#100F0F</color>
     <color name="grayButtonBG">#C8C6C6</color>
     <color name="recyclerViewBG">#F4F1F1</color>
+
+    <color name="grayLight">#B8B8B8</color>
+    <color name="grayDark">#959595</color>
+    <color name="darkBG">#343434</color>
+    <color name="lightBG">#FFFFFF</color>
+    <color name="blueDark">#2D538C</color>
+    <color name="blueLight">#7490BB</color>
 </resources>

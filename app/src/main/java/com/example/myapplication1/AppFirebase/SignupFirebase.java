@@ -1,7 +1,11 @@
 package com.example.myapplication1.AppFirebase;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,23 +39,19 @@ import java.util.Objects;
 
 public class SignupFirebase extends AppCompatActivity {
 
+    ActivitySignupFirebaseBinding binding;
     FirebaseAuth auth;
     FirebaseDatabase db;
     DatabaseReference users;
 
     Button signUpButton, signInButton;
-    EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    EditText usernameEditText, emailEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_signup_firebase);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivitySignupFirebaseBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -60,7 +60,16 @@ public class SignupFirebase extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+
+        TextPaint paint = binding.titleTextView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+
+        Shader textShader = new LinearGradient(0, 0, width, binding.titleTextView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        binding.titleTextView.getPaint().setShader(textShader);
 
         signUpButton = findViewById(R.id.signUpButton);
 
@@ -68,34 +77,32 @@ public class SignupFirebase extends AppCompatActivity {
             signUpButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (usernameEditText.getText().toString().trim().isEmpty() || emailEditText.getText().toString().trim().isEmpty() || passwordEditText.getText().toString().trim().isEmpty() || confirmPasswordEditText.getText().toString().trim().isEmpty()) {
+                    if (usernameEditText.getText().toString().trim().isEmpty() || emailEditText.getText().toString().trim().isEmpty() || passwordEditText.getText().toString().trim().isEmpty()) {
                         Toast.makeText(SignupFirebase.this, "Fields cannot be empty", Toast.LENGTH_LONG).show();
                     }
                     else {
                         if (passwordEditText.getText().toString().trim().length() >= 8 && passwordEditText.getText().toString().trim().length() <= 16) {
-                            if (passwordEditText.getText().toString().trim().equals(confirmPasswordEditText.getText().toString().trim())) {
-                                auth.createUserWithEmailAndPassword(emailEditText.getText().toString().strip(), passwordEditText.getText().toString().strip())
-                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                            @Override
-                                            public void onSuccess(AuthResult authResult) {
-                                                User user = new User(usernameEditText.getText().toString().trim(), emailEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
+                            auth.createUserWithEmailAndPassword(emailEditText.getText().toString().strip(), passwordEditText.getText().toString().strip())
+                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                        @Override
+                                        public void onSuccess(AuthResult authResult) {
+                                            User user = new User(usernameEditText.getText().toString().trim(), emailEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
 
-                                                users.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).setValue(user)
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void unused) {
-                                                                Toast.makeText(SignupFirebase.this, MessageFormat.format("Welcome, {0}!", usernameEditText.getText()), Toast.LENGTH_LONG).show();
-                                                                startActivity(new Intent(SignupFirebase.this, MainMenuNavigation.class));
-                                                            }
-                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Toast.makeText(SignupFirebase.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                            }
-                                                        });
-                                            }
-                                        });
-                            } else Toast.makeText(SignupFirebase.this,"Passwords don't match", Toast.LENGTH_LONG).show();
+                                            users.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).setValue(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Toast.makeText(SignupFirebase.this, MessageFormat.format("Welcome, {0}!", usernameEditText.getText()), Toast.LENGTH_LONG).show();
+                                                            startActivity(new Intent(SignupFirebase.this, MainMenuNavigation.class));
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(SignupFirebase.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                        }
+                                    });
                         } else Toast.makeText(SignupFirebase.this,"The password must be at least 8 characters and no more than 16", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -107,10 +114,13 @@ public class SignupFirebase extends AppCompatActivity {
             startActivity(new Intent(SignupFirebase.this, SignupFirebase.class));
         }
 
-    }
+        binding.logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignupFirebase.this, LoginFirebase.class));
+            }
+        });
 
-    public void onClickLogInButton(View view) {
-        startActivity(new Intent(SignupFirebase.this, LoginFirebase.class));
     }
 
 

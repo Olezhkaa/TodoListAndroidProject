@@ -1,9 +1,14 @@
 package com.example.myapplication1.AppFirebase;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -11,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.myapplication1.AppFirebase.ui.CalendarFragmentFirebase;
@@ -53,8 +59,10 @@ public class MainMenuNavigation extends AppCompatActivity {
         binding = ActivityMainMenuNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser() == null) { startActivity(new Intent(this, LoginFirebase.class)); }
+
 
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
         usersOnline = db.getReference("UsersOnline");
@@ -68,7 +76,15 @@ public class MainMenuNavigation extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+        TextPaint paint = binding.titleTextView.getPaint();
+        float width = paint.measureText("Tianjin, China");
 
+        Shader textShader = new LinearGradient(0, 0, width, binding.titleTextView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        binding.titleTextView.getPaint().setShader(textShader);
 
     }
     private void replaceFragment(Fragment fragment) {
@@ -94,27 +110,43 @@ public class MainMenuNavigation extends AppCompatActivity {
         super.onStart();
 
         replaceFragment(new HomeFragmentFirebase());
-        toolbar.setTitle("Today");
+        binding.titleTextView.setText("Сегодня");
+        binding.searchButton.setVisibility(View.GONE);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.homeFragmentFirebase) {
-                toolbar.setTitle("Today");
+                binding.titleTextView.setText("Сегодня");
                 replaceFragment(new HomeFragmentFirebase());
+                binding.searchButton.setVisibility(View.GONE);
+                binding.toolBar.setVisibility(View.VISIBLE);
             }
             if(item.getItemId() == R.id.calendarFragmentFirebase) {
-                toolbar.setTitle("Calendar");
+                binding.titleTextView.setText("Календарь");
                 replaceFragment(new CalendarFragmentFirebase());
+                binding.searchButton.setVisibility(View.GONE);
+                binding.toolBar.setVisibility(View.VISIBLE);
             }
             if(item.getItemId() == R.id.friendsFragmentFirebase) {
-                toolbar.setTitle("Friends");
+                binding.titleTextView.setText("Друзья");
                 replaceFragment(new FriendsFragmentFirebase());
+                binding.searchButton.setVisibility(View.VISIBLE);
+                binding.toolBar.setVisibility(View.VISIBLE);
             }
             if(item.getItemId() == R.id.profileFragmentFirebase) {
-                toolbar.setTitle("Profile");
+                binding.titleTextView.setText("Профиль");
                 replaceFragment(new ProfileFragmentFirebase(this, this));
+                binding.searchButton.setVisibility(View.GONE);
+                binding.toolBar.setVisibility(View.GONE);
             }
             return true;
+        });
+
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainMenuNavigation.this, AddFriendFirebase.class));
+            }
         });
 
     }
@@ -124,4 +156,5 @@ public class MainMenuNavigation extends AppCompatActivity {
         super.onDestroy();
         finish();
     }
+
 }

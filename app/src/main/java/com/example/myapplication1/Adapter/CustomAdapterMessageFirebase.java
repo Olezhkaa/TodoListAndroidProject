@@ -56,7 +56,6 @@ public class CustomAdapterMessageFirebase extends RecyclerView.Adapter<CustomAda
     @Override
     public void onBindViewHolder(@NonNull CustomAdapterMessageFirebase.MyViewHolder holder, int position) {
         Message message = messageList.get(position);
-        holder.messageUsername.setText(message.getUserName());
         holder.messageText.setText(message.getTextMessage());
         holder.messageTime.setText(message.getTimeMessage());
 
@@ -75,7 +74,6 @@ public class CustomAdapterMessageFirebase extends RecyclerView.Adapter<CustomAda
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            messageUsername = itemView.findViewById(R.id.messageUsername);
             messageText = itemView.findViewById(R.id.messageText);
             messageTime = itemView.findViewById(R.id.messageTime);
             rowMessageConstraintLayout = itemView.findViewById(R.id.rowFriendsConstraintLayout);

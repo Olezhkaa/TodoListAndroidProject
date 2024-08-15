@@ -10,40 +10,19 @@
     android:padding="5dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#CBA93917"
-        android:maxWidth="250dp"
-        android:orientation="vertical"
-        android:paddingHorizontal="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/messageUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textStyle="normal|bold"
-            android:visibility="gone" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/messageLinearLayoutRight">
 
         <TextView
             android:id="@+id/messageText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:text="Message text"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            style="@style/messageText" />
 
         <TextView
             android:id="@+id/messageTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginLeft="10dp"
-            android:text="00:00"
-            android:textColor="@color/white" />
+            android:text="01.01.2024 00:00"
+            style="@style/messageDateTime" />
 
 
     </LinearLayout>

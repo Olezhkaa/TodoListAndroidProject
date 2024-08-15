@@ -7,118 +7,61 @@
     android:layout_height="match_parent"
     tools:context=".AppFirebase.UpdateNoteFirebase">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="ToolBar!"
-        android:background="@color/redBase"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/back_button_hat">
-
-        <ImageButton
-            android:id="@+id/deleteAllButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="deleteAll"
-            android:onClick="deleteAllButton"
-            android:src="@drawable/baseline_delete_24"
-            tools:ignore="TouchTargetSizeCheck"
-            tools:layout_editor_absoluteX="366dp"
-            tools:layout_editor_absoluteY="14dp" />
-
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update a note"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
-        android:textColor="@color/redBase"
-        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        style="@style/linearLayoutStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:maxWidth="300dp">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/textViewTitle"
+            android:text="Изменить запись" />
+
+        <View style="@style/dividing_line_blue" />
+
+        <TextView
+            android:text="Текст"
+            style="@style/textViewStyleLogSign" />
 
         <EditText
             android:id="@+id/titleEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"/>
+            style="@style/editTextStyle"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:text="Дата"
+            style="@style/textViewStyleLogSign" />
 
         <EditText
             android:id="@+id/dateEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
+            style="@style/editTextStyle"
+            tools:ignore="SpeakableTextPresentCheck"
             android:inputType="date"/>
+
+        <TextView
+            android:text="Время"
+            style="@style/textViewStyleLogSign" />
 
         <EditText
             android:id="@+id/timeEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Time"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
+            style="@style/editTextStyle"
+            tools:ignore="SpeakableTextPresentCheck"
             android:inputType="time"/>
+
 
         <Button
             android:id="@+id/updateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/redBase"
-            android:paddingHorizontal="100dp"
-            android:text="Update!"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            style="@style/buttonStyleBlue"
+            android:text="Изменить"
             android:onClick="onClickUpdateButton"/>
 
         <Button
             android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/grayButtonBG"
-            android:paddingHorizontal="100dp"
-            android:text="Delete!"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:onClick="onClickDeleteButton"/>
+            style="@style/buttonStyleTransparent"
+            android:text="Удалить" />
 
 
     </LinearLayout>

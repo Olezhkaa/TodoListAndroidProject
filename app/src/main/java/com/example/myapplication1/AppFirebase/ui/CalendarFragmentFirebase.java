@@ -50,6 +50,7 @@ public class CalendarFragmentFirebase extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout, new HomeFragmentFirebase(selectedDate));
                 fragmentTransaction.commit();
+                calendarView.setVisibility(View.GONE);
             }
         });
 

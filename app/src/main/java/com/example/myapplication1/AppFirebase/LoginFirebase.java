@@ -1,8 +1,13 @@
 package com.example.myapplication1.AppFirebase;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFirebase extends AppCompatActivity {
 
+    ActivityLoginFirebaseBinding binding;
+
     private EditText emailEditText, passwordEditText;
     Button signInButton;
 
@@ -35,14 +42,8 @@ public class LoginFirebase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login_firebase);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
+        binding = ActivityLoginFirebaseBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
 
         emailEditText = findViewById(R.id.emailEditText);
@@ -51,6 +52,15 @@ public class LoginFirebase extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        TextPaint paint = binding.titleTextView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+
+        Shader textShader = new LinearGradient(0, 0, width, binding.titleTextView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        binding.titleTextView.getPaint().setShader(textShader);
     }
 
     public void onClickSignIn(View view) {

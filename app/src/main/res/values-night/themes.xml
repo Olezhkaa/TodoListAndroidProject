@@ -1,7 +1,117 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MyApplication1" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/darkBG</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
+        <item name="colorAccent">@color/blueDark</item>
+        <item name="android:navigationBarColor">@color/darkBG</item>
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
+    <style name="editTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/round_rect_edit_text_dark</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_marginRight">25dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:paddingLeft">15dp</item>
+    </style>
+
+    <style name="bottomNavigationStyleMe" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/round_rect_bottom_menu_dark</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="theme">@style/bottomNavigationStyle</item>
+    </style>
+
+    <style name="messageLinearLayoutRight">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/round_message_right_dark</item>
+        <item name="android:maxWidth">250dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingHorizontal">15dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="messageLinearLayoutLeft">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/round_message_left_dark</item>
+        <item name="android:maxWidth">250dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingHorizontal">15dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="linearLayoutStyle" >
+        <item name="android:background">@drawable/round_rect_linear_layout_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">25dp</item>
+        <item name="android:paddingTop">35dp</item>
+        <item name="android:paddingBottom">35dp</item>
+    </style>
+
+    <style name="ImageButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:contentDescription">addButton</item>
+        <item name="android:background">@drawable/round_rect_edit_text_dark</item>
+    </style>
+
+    <style name="textInputStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/round_rect_bottom_menu_dark</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="messageText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="bottomNavigationStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+        <item name="colorPrimary">@color/blueDark</item>
+        <item name="colorPrimaryVariant">@color/blueDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blueLight</item>
+        <item name="colorSecondaryVariant">@color/blueLight</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/blueDark</item>
+    </style>
+
+    <style name="textEmpty">
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="imageEmpty">
+        <item name="android:src">@drawable/coffe_empty_dark_theme</item>
+    </style>
+
 </resources>

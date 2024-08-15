@@ -5,12 +5,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +91,6 @@ public class ProfileFragmentFirebase extends Fragment {
         View root = binding.getRoot();
 
         usernameTextView = binding.usernameTextView;
-        onlineTextView = binding.onlineTextView;
         aboutMeTextView = binding.aboutMeTextView;
         imageView = binding.imageView;
 
@@ -93,12 +98,18 @@ public class ProfileFragmentFirebase extends Fragment {
         db = FirebaseDatabase.getInstance("https://todolistandroidproject-default-rtdb.europe-west1.firebasedatabase.app/");
         users = db.getReference("Users");
 
+        TextPaint paint = binding.usernameTextView.getPaint();
+        float width = paint.measureText("Tianjin, China");
+
+        Shader textShader = new LinearGradient(0, 0, width, binding.usernameTextView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#7490BB"),
+                        Color.parseColor("#2D538C"),
+                }, null, Shader.TileMode.CLAMP);
+        binding.usernameTextView.getPaint().setShader(textShader);
+
         storage = FirebaseStorage.getInstance("gs://todolistandroidproject.appspot.com");
         storageReference = storage.getReference("Profile picture");
-
-        uploadImage();
-        download();
-        getAboutMe();
 
         users.addValueEventListener(new ValueEventListener() {
             @Override
@@ -117,6 +128,11 @@ public class ProfileFragmentFirebase extends Fragment {
             }
         });
 
+        getAboutMe();
+        uploadImage();
+        download();
+
+        imageView.setImageResource(R.drawable.image_profile);
         storageReference.getFile(new File(auth.getCurrentUser().getUid())).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -161,7 +177,7 @@ public class ProfileFragmentFirebase extends Fragment {
             }
         });
 
-        logOutButton = binding.deleteAllNoteButton;
+        logOutButton = binding.logOutButton;
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,9 +186,29 @@ public class ProfileFragmentFirebase extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(context, "User Signed Out", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(context, LoginFirebase.class));
+                                startActivity(new Intent(activity, LoginFirebase.class));
                             }
                         });
+            }
+        });
+
+        binding.changeThemeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor prefEditor = activity.getSharedPreferences("themeApp", Context.MODE_PRIVATE).edit();
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    prefEditor.putString("themeApp", "light");
+                    prefEditor.apply();
+                    startActivity(new Intent(getActivity(), MainMenuNavigation.class));
+                }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    prefEditor.putString("themeApp", "dark");
+                    prefEditor.apply();
+                    startActivity(new Intent(getActivity(), MainMenuNavigation.class));
+                }
+
             }
         });
 
@@ -224,7 +260,6 @@ public class ProfileFragmentFirebase extends Fragment {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     //Toast.makeText(activity, "Download failed: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    imageView.setImageResource(R.drawable.profile_bottom_menu);
                 }
             });
         } catch (Exception e) {
@@ -244,7 +279,7 @@ public class ProfileFragmentFirebase extends Fragment {
                     {
                         User user = dataSnapshot.getValue(User.class);
                         if (user != null) {
-                            aboutMeTextView.setText("About me: " + user.getAboutMe());
+                            aboutMeTextView.setText("О себе: " + user.getAboutMe());
                         }
                     }
                 }

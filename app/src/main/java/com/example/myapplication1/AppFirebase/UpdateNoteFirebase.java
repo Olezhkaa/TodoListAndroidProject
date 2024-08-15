@@ -1,5 +1,7 @@
 package com.example.myapplication1.AppFirebase;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class UpdateNoteFirebase extends AppCompatActivity {
@@ -42,12 +45,6 @@ public class UpdateNoteFirebase extends AppCompatActivity {
         binding = ActivityUpdateNoteFirebaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Toolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         titleEditText = findViewById(R.id.titleEditText);
         dateEditText = findViewById(R.id.dateEditText);
         timeEditText = findViewById(R.id.timeEditText);
@@ -61,16 +58,14 @@ public class UpdateNoteFirebase extends AppCompatActivity {
         getAndSetIntentDate();
         getKeyNoteData();
 
+        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteNoteAlertDialog();
+            }
+        });
 
 
-
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     void getAndSetIntentDate() {
@@ -104,15 +99,6 @@ public class UpdateNoteFirebase extends AppCompatActivity {
 
     }
 
-    public void onClickDeleteButton(View view) {
-        try {
-            notes.child(keyData).removeValue();
-            Toast.makeText(UpdateNoteFirebase.this, "Note Deleted", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(UpdateNoteFirebase.this, MainMenuNavigation.class));
-        }
-        catch (Exception e) { Toast.makeText(UpdateNoteFirebase.this, "Error: " + e, Toast.LENGTH_LONG).show(); }
-    }
-
     void getKeyNoteData()
     {
         notes.addValueEventListener(new ValueEventListener() {
@@ -134,5 +120,29 @@ public class UpdateNoteFirebase extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void deleteNoteAlertDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Удалить запись");
+        alert.setMessage("Вы уверены, что хотьте удалить запись?");
+        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    notes.child(keyData).removeValue();
+                    Toast.makeText(UpdateNoteFirebase.this, "Note Deleted", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(UpdateNoteFirebase.this, MainMenuNavigation.class));
+                }
+                catch (Exception e) { Toast.makeText(UpdateNoteFirebase.this, "Error: " + e, Toast.LENGTH_LONG).show(); }
+            }
+        });
+        alert.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert.show();
     }
 }

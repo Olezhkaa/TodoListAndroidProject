@@ -9,24 +9,51 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/bottomNavigationStyleMe"
+        app:itemIconSize="30dp"
+        app:itemRippleColor="@color/blueLight"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu"
-        android:layout_marginBottom="0dp" />
+        app:menu="@menu/bottom_menu" />
 
     <androidx.appcompat.widget.Toolbar
+        app:contentInsetStart="0dp"
         android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="ToolBar!"
-        android:background="@color/redBase"
-        app:titleTextColor="@color/white">
+        style="@style/toolbarStyle">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/titleTextView"
+                style="@style/textViewTitle"
+                android:layout_gravity="center"
+                android:text="ToolBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="search"
+                android:padding="5dp"
+                android:src="@drawable/search_button"
+                android:visibility="visible"
+                android:background="@color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/titleTextView"
+                app:layout_constraintStart_toEndOf="@+id/titleTextView"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
